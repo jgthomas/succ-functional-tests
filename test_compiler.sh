@@ -128,7 +128,11 @@ test_stage () {
         fi
     done
     echo "===================Stage $1 Summary================="
-    printf "%d successes, %d failures\n" $success $fail
+    if (($fail == 0)); then
+            printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success $fail
+    else
+            printf "%d successes, ${RED}%d failures${NORMAL}\n" $success $fail
+    fi
     ((success_total=success_total+success))
     ((failure_total=failure_total + fail))
 }
