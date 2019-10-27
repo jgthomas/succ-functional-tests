@@ -135,7 +135,12 @@ test_stage () {
 
 total_summary () {
     echo "===================TOTAL SUMMARY===================="
-    printf "%d successes, %d failures\n" $success_total $failure_total
+
+    if (($failure_total == 0)); then
+            printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success_total $failure_total
+    else
+            printf "%d successes, ${RED}%d failures${NORMAL}\n" $success_total $failure_total
+    fi
 }
 
 if [ "$1" == "" ]; then
