@@ -1,5 +1,10 @@
 #!/bin/bash
 
+BOLD=$(tput bold)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+NORMAL=$(tput sgr0)
+
 padding_dots=$(printf '%0.1s' "."{1..60})
 padlength=50
 cmp=$1
@@ -13,12 +18,12 @@ print_test_name () {
 }
 
 test_success () {
-    echo "OK"
+    printf '%s\n' "${GREEN}OK${NORMAL}"
     ((success++))
 }
 
 test_failure () {
-    echo "FAIL"
+    printf '%s\n' "${RED}OK${NORMAL}"
     ((fail++))
 }
 
