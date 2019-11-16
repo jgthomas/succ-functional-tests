@@ -23,7 +23,7 @@ test_success () {
 }
 
 test_failure () {
-    printf '%s\n' "${RED}OK${NORMAL}"
+    printf '%s\n' "${RED}FAIL${NORMAL}"
     ((fail++))
 }
 
