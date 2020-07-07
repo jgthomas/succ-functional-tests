@@ -63,7 +63,7 @@ compare_program_results () {
 
 test_valid() {
         echo "===================Valid Programs==================="
-        for prog in `find . -type f -name "*.c" -path "./stage_$1/valid/*" -not -path "*/valid_multifile/*" 2>/dev/null`; do
+        for prog in $(find . -type f -name "*.c" -path "./stage_$1/valid/*" 2>/dev/null); do
 
             gcc -w $prog
             run_correct_program
