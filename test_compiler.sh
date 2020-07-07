@@ -19,6 +19,16 @@ print_test_name () {
 }
 
 
+print_thick_line() {
+        echo "===================================================="
+}
+
+
+print_thin_line() {
+        echo "----------------------------------------------------"
+}
+
+
 test_success () {
     printf '%s\n' "${GREEN}OK${NORMAL}"
     ((success++))
@@ -141,7 +151,7 @@ test_invalid() {
 test_stage () {
     success=0
     fail=0
-    echo "===================================================="
+    print_thick_line
     echo "${1^^}"
 
     test_valid $1
@@ -155,7 +165,7 @@ test_stage () {
 
 
 stage_summary() {
-        echo "===================================================="
+        print_thin_line
         printf '%-12s' "${1^^}"
 
         if (($fail == 0)); then
@@ -167,7 +177,7 @@ stage_summary() {
 
 
 total_summary () {
-    echo "===================================================="
+    print_thick_line
     printf '%-12s' "OVERALL"
 
     if (($failure_total == 0)); then
@@ -176,7 +186,7 @@ total_summary () {
             printf "%18d successes, ${RED}%d failures${NORMAL}\n" $success_total $failure_total
     fi
 
-    echo "===================================================="
+    print_thick_line
 }
 
 
