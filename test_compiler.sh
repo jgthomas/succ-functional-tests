@@ -182,8 +182,7 @@ stage_summary() {
 
 
 total_summary () {
-    echo
-    printf '%-12s' "OVERALL"
+    printf '\n%-12s' "OVERALL"
 
     if (($failure_total == 0)); then
             printf "${GREEN}%18d successes${NORMAL}, %d failures\n" $success_total $failure_total
