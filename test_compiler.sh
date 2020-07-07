@@ -156,7 +156,7 @@ test_stage () {
 
 stage_summary() {
         echo "===================================================="
-        printf "${1^^} : "
+        printf '%-12s' "${1^^}"
 
         if (($fail == 0)); then
                 printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success $fail
@@ -168,7 +168,7 @@ stage_summary() {
 
 total_summary () {
     echo "===================================================="
-    printf "OVERALL : "
+    printf '%-12s' "OVERALL"
 
     if (($failure_total == 0)); then
             printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success_total $failure_total
