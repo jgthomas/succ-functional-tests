@@ -127,9 +127,7 @@ test_invalid() {
             print_test_name $test_name
 
             # make sure neither executable nor assembly was produced
-            # and exit code is non-zero
-            if [[ -f $base || -f $base".s" ]]
-            then
+            if [[ -f $base || -f $base".s" ]]; then
                 test_failure
                 rm $base 2>/dev/null
                 rm $base".s" 2>/dev/null
@@ -149,20 +147,29 @@ test_stage () {
     test_valid $1
     test_valid_multifile $1
     test_invalid $1
+    stage_summary $1
 
-    echo "===================Stage $1 Summary================="
-    if (($fail == 0)); then
-            printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success $fail
-    else
-            printf "%d successes, ${RED}%d failures${NORMAL}\n" $success $fail
-    fi
     ((success_total=success_total+success))
-    ((failure_total=failure_total + fail))
+    ((failure_total=failure_total+fail))
+}
+
+
+stage_summary() {
+        echo "===================================================="
+        echo "Stage $1 Summary"
+        echo "===================================================="
+        if (($fail == 0)); then
+                printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success $fail
+        else
+                printf "%d successes, ${RED}%d failures${NORMAL}\n" $success $fail
+        fi
 }
 
 
 total_summary () {
-    echo "===================TOTAL SUMMARY===================="
+    echo "===================================================="
+    echo "TOTAL SUMMARY"
+    echo "===================================================="
 
     if (($failure_total == 0)); then
             printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success_total $failure_total
