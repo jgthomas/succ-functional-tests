@@ -142,7 +142,7 @@ test_stage () {
     success=0
     fail=0
     echo "===================================================="
-    echo "STAGE $1"
+    echo "${1^^}"
 
     test_valid $1
     test_valid_multifile $1
@@ -156,8 +156,8 @@ test_stage () {
 
 stage_summary() {
         echo "===================================================="
-        echo "Stage $1 Summary"
-        echo "===================================================="
+        printf "${1^^} : "
+
         if (($fail == 0)); then
                 printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success $fail
         else
@@ -168,14 +168,15 @@ stage_summary() {
 
 total_summary () {
     echo "===================================================="
-    echo "TOTAL SUMMARY"
-    echo "===================================================="
+    printf "OVERALL : "
 
     if (($failure_total == 0)); then
             printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success_total $failure_total
     else
             printf "%d successes, ${RED}%d failures${NORMAL}\n" $success_total $failure_total
     fi
+
+    echo "===================================================="
 }
 
 
