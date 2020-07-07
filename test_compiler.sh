@@ -29,6 +29,11 @@ print_thin_line() {
 }
 
 
+print_star_line() {
+        echo "****************************************************"
+}
+
+
 test_success () {
     printf '%s\n' "${GREEN}OK${NORMAL}"
     ((success++))
@@ -72,7 +77,7 @@ compare_program_results () {
 
 
 test_valid() {
-        echo "===================Valid Programs==================="
+        echo "===============================================VALID"
         for prog in $(find . -type f -name "*.c" -path "./stage_$1/valid/*" 2>/dev/null); do
 
             gcc -w $prog
@@ -126,7 +131,7 @@ test_valid_multifile() {
 
 
 test_invalid() {
-        echo "===================Invalid Programs================="
+        echo "=============================================INVALID"
         for prog in `ls stage_$1/invalid/{,**/}*.c 2>/dev/null`; do
 
             base="${prog%.*}" #name of executable (filename w/out extension)
@@ -151,8 +156,7 @@ test_invalid() {
 test_stage () {
     success=0
     fail=0
-    print_thick_line
-    echo "${1^^}"
+    printf "\n${1^^}\n"
 
     test_valid $1
     test_valid_multifile $1
@@ -165,7 +169,7 @@ test_stage () {
 
 
 stage_summary() {
-        print_thin_line
+        print_thick_line
         printf '%-12s' "${1^^}"
 
         if (($fail == 0)); then
@@ -173,11 +177,12 @@ stage_summary() {
         else
                 printf "%18d successes, ${RED}%d failures${NORMAL}\n" $success $fail
         fi
+        print_thick_line
 }
 
 
 total_summary () {
-    print_thick_line
+    echo
     printf '%-12s' "OVERALL"
 
     if (($failure_total == 0)); then
