@@ -159,9 +159,9 @@ stage_summary() {
         printf '%-12s' "${1^^}"
 
         if (($fail == 0)); then
-                printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success $fail
+                printf "${GREEN}%18d successes${NORMAL}, %d failures\n" $success $fail
         else
-                printf "%d successes, ${RED}%d failures${NORMAL}\n" $success $fail
+                printf "%18d successes, ${RED}%d failures${NORMAL}\n" $success $fail
         fi
 }
 
@@ -171,9 +171,9 @@ total_summary () {
     printf '%-12s' "OVERALL"
 
     if (($failure_total == 0)); then
-            printf "${GREEN}%d successes${NORMAL}, %d failures\n" $success_total $failure_total
+            printf "${GREEN}%18d successes${NORMAL}, %d failures\n" $success_total $failure_total
     else
-            printf "%d successes, ${RED}%d failures${NORMAL}\n" $success_total $failure_total
+            printf "%18d successes, ${RED}%d failures${NORMAL}\n" $success_total $failure_total
     fi
 
     echo "===================================================="
