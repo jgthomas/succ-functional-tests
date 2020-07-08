@@ -83,8 +83,8 @@ test_valid() {
             gcc -w $src_path
             run_correct_program
 
-            exe_path="${src_path%.*}"
-            test_name="${exec_path##*valid/}"
+            exe_path="${src_path%.*}"           # src_path minus *.c
+            test_name="${exec_path##*valid/}"   # name of executable minus path
 
             $compiler $src_path 2>/dev/null
             run_our_program $exe_path
