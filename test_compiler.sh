@@ -7,7 +7,7 @@ NORMAL=$(tput sgr0)
 
 padding_dots=$(printf '%0.1s' "."{1..60})
 padlength=50
-cmp=$1
+compiler=$1
 success_total=0
 failure_total=0
 
@@ -78,33 +78,19 @@ compare_program_results () {
 
 test_valid() {
         echo "===============================================VALID"
-        for prog in $(find . -type f -name "*.c" -path "./stage_$1/valid/*" 2>/dev/null); do
+        for src_path in $(find . -type f -name "*.c" -path "./stage_$1/valid/*" 2>/dev/null); do
 
-            gcc -w $prog
+            gcc -w $src_path
             run_correct_program
 
-            base="${prog%.*}" #name of executable (filename w/out extension)
-            test_name="${base##*valid/}"
+            exe_path="${src_path%.*}"
+            test_name="${exec_path##*valid/}"
+
+            $compiler $src_path 2>/dev/null
+            run_our_program $exe_path
 
             print_test_name $test_name
-            $cmp $prog 2>/dev/null
-            status=$?
-
-            if [[ $test_name == "skip_on_failure"* ]]; then
-                # this may depend on features we haven't implemented yet
-                # if compilation succeeds, make sure it gives the right result
-                # otherwise don't count it as success or failure
-                if [[ -f $base ]] && [[ $status -eq 0 ]]; then
-                    # it succeeded, so run it and make sure it gives the right result
-                    run_our_program $base
-                    compare_program_results
-                else
-                    test_not_implemented
-                fi
-            else
-                run_our_program $base
-                compare_program_results
-            fi
+            compare_program_results
         done
 }
 
@@ -119,7 +105,7 @@ test_valid_multifile() {
             test_name="${base##*valid_multifile/}"
 
             # need to explicitly specify output name
-            $cmp -o "$test_name" $dir/* >/dev/null
+            $compiler -o "$test_name" $dir/* >/dev/null
 
             print_test_name $test_name
 
@@ -137,7 +123,7 @@ test_invalid() {
             base="${prog%.*}" #name of executable (filename w/out extension)
             test_name="${base##*invalid/}"
 
-            $cmp $prog >/dev/null 2>&1
+            $compiler $prog >/dev/null 2>&1
             status=$? #failed, as we expect, if exit code != 0
             print_test_name $test_name
 
