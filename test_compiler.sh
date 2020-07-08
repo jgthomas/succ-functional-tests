@@ -7,7 +7,11 @@ NORMAL=$(tput sgr0)
 
 padding_dots=$(printf '%0.1s' "."{1..60})
 padlength=50
+
 compiler=$1
+shift
+test_cases=$@
+
 success_total=0
 failure_total=0
 
@@ -184,13 +188,12 @@ if [[ "$compiler" == "" ]]; then
 fi
 
 
-if test 1 -lt $#; then
-   testcases=("$@") # [1..-1] is testcases
-   for i in `seq 2 $#`; do
-       test_stage ${testcases[$i-1]}
-   done
-   total_summary
-   exit 0
+if [[ $test_cases != "" ]]; then
+        for test_case in $test_cases; do
+                test_stage $test_case
+        done
+        total_summary
+        exit 0
 fi
 
 
@@ -214,5 +217,4 @@ all_test_cases="literals \
 for test_case in $all_test_cases; do
         test_stage $test_case
 done
-
 total_summary
