@@ -177,8 +177,8 @@ total_summary () {
 
 usage() {
     echo "USAGE: ./test_compiler.sh /path/to/compiler [stages]"
-    echo "RUN NAMED TESTS: ./test_compiler.sh ./mycompiler tests1 tests2 tests3"
-    echo "RUN ALL STAGES: ./test_compiler.sh ./mycompiler"
+    echo "RUN NAMED TESTS: ./test_compiler.sh /path/to/compiler tests1 tests2 tests3"
+    echo "RUN ALL STAGES: ./test_compiler.sh  /path/to/compiler"
 }
 
 
