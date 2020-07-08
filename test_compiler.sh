@@ -96,21 +96,20 @@ test_valid() {
 
 
 test_valid_multifile() {
-        for dir in `ls -d stage_$1/valid_multifile/* 2>/dev/null` ; do
-            gcc -w $dir/*
+        echo "============================Valid Multifile Programs"
+        for dir in $(find -type d -path "./stage_$1/valid_multifile/*" 2>/dev/null); do
 
+            gcc -w $dir/*
             run_correct_program
 
-            base="${dir%.*}" #name of executable (directory w/out extension)
-            test_name="${base##*valid_multifile/}"
+            exec_path="${dir%.*}"                        # source path (directory w/out extension)
+            test_name="${exec_path##*valid_multifile/}"  # name of executable minus path
 
             # need to explicitly specify output name
             $compiler -o "$test_name" $dir/* >/dev/null
+            run_our_program $test_name
 
             print_test_name $test_name
-
-            # check output/exit codes
-            run_our_program $test_name
             compare_program_results
         done
 }
@@ -144,7 +143,7 @@ test_stage () {
     printf "\n${1^^}\n"
 
     test_valid $1
-    test_valid_multifile $1
+    #test_valid_multifile $1
     test_invalid $1
     stage_summary $1
 
