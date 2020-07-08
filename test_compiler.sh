@@ -83,8 +83,8 @@ test_valid() {
             gcc -w $src_path
             run_correct_program
 
-            exec_path="${src_path%.*}"           # src_path minus *.c
-            test_name="${exec_path##*valid/}"    # name of executable minus path
+            exec_path="${src_path%.*}"         # source path minus *.c
+            test_name="${exec_path##*valid/}"  # name of executable minus path
 
             $compiler $src_path 2>/dev/null
             run_our_program $exec_path
@@ -118,20 +118,19 @@ test_valid_multifile() {
 
 test_invalid() {
         echo "====================================Invalid Programs"
-        for prog in `ls stage_$1/invalid/{,**/}*.c 2>/dev/null`; do
+        for src_path in $(find . -type f -name "*.c" -path "./stage_$1/invalid/*" 2>/dev/null); do
 
-            base="${prog%.*}" #name of executable (filename w/out extension)
-            test_name="${base##*invalid/}"
+            exec_path="${src_path%.*}"           # source path minus *.c
+            test_name="${exec_path##*invalid/}"  # name of executable minus path
 
-            $compiler $prog >/dev/null 2>&1
-            status=$? #failed, as we expect, if exit code != 0
+            $compiler $src_path >/dev/null 2>&1
             print_test_name $test_name
 
-            # make sure neither executable nor assembly was produced
-            if [[ -f $base || -f $base".s" ]]; then
+            # neither executable nor assembly should be produced
+            if [[ -f $exec_path || -f $exec_path".s" ]]; then
                 test_failure
-                rm $base 2>/dev/null
-                rm $base".s" 2>/dev/null
+                rm $exec_path 2>/dev/null
+                rm $exec_path".s" 2>/dev/null
             else
                 test_success
             fi
