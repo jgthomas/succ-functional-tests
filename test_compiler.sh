@@ -171,11 +171,16 @@ total_summary () {
 }
 
 
-if [ "$1" == "" ]; then
-    echo "USAGE: ./test_compiler.sh /path/to/compiler [stages(optional)]"
-    echo "EXAMPLE(test specific stages): ./test_compiler.sh ./mycompiler 1 2 4"
-    echo "EXAMPLE(test all): ./test_compiler.sh ./mycompiler"
-    exit 1
+usage() {
+    echo "USAGE: ./test_compiler.sh /path/to/compiler [stages]"
+    echo "RUN NAMED TESTS: ./test_compiler.sh ./mycompiler tests1 tests2 tests3"
+    echo "RUN ALL STAGES: ./test_compiler.sh ./mycompiler"
+}
+
+
+if [[ "$compiler" == "" ]]; then
+        usage
+        exit 1
 fi
 
 
