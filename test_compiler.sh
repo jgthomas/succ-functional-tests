@@ -77,17 +77,17 @@ compare_program_results () {
 
 
 test_valid() {
-        echo "===============================================VALID"
+        echo "======================================Valid Programs"
         for src_path in $(find . -type f -name "*.c" -path "./stage_$1/valid/*" 2>/dev/null); do
 
             gcc -w $src_path
             run_correct_program
 
-            exe_path="${src_path%.*}"           # src_path minus *.c
-            test_name="${exec_path##*valid/}"   # name of executable minus path
+            exec_path="${src_path%.*}"           # src_path minus *.c
+            test_name="${exec_path##*valid/}"    # name of executable minus path
 
             $compiler $src_path 2>/dev/null
-            run_our_program $exe_path
+            run_our_program $exec_path
 
             print_test_name $test_name
             compare_program_results
@@ -117,7 +117,7 @@ test_valid_multifile() {
 
 
 test_invalid() {
-        echo "=============================================INVALID"
+        echo "====================================Invalid Programs"
         for prog in `ls stage_$1/invalid/{,**/}*.c 2>/dev/null`; do
 
             base="${prog%.*}" #name of executable (filename w/out extension)
