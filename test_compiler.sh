@@ -47,23 +47,21 @@ test_failure () {
 
 
 run_our_program () {
-    actual_out=`./$1 2>/dev/null`
+    actual_out=$(./$1 2>/dev/null)
     actual_exit_code=$?
     rm $1 2>/dev/null
 }
 
 
 run_correct_program () {
-    expected_out=`./a.out`
+    expected_out=$(./a.out)
     expected_exit_code=$?
     rm a.out
 }
 
 
 compare_program_results () {
-    # make sure exit code is correct
-    if [ "$expected_exit_code" -ne "$actual_exit_code" ] || [ "$expected_out" != "$actual_out" ]
-    then
+    if [[ "$expected_exit_code" -ne "$actual_exit_code" || "$expected_out" != "$actual_out" ]]; then
         test_failure
     else
         test_success
