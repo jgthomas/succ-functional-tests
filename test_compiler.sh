@@ -189,12 +189,25 @@ if test 1 -lt $#; then
 fi
 
 
-num_stages=10
+all_test_cases="literals \
+                unary \
+                binary_I \
+                binary_II \
+                locals \
+                conditionals \
+                compound \
+                loops \
+                functions \
+                globals \
+                ops \
+                pointers \
+                types \
+                bitwise \
+                array"
 
 
-for i in `seq 1 $num_stages`; do
-    test_stage $i
+for test_case in $all_test_cases; do
+        test_stage $test_case
 done
-
 
 total_summary
