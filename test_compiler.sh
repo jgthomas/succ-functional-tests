@@ -46,11 +46,6 @@ test_failure () {
 }
 
 
-test_not_implemented () {
-    echo "NOT IMPLEMENTED"
-}
-
-
 run_our_program () {
     actual_out=`./$1 2>/dev/null`
     actual_exit_code=$?
@@ -95,26 +90,6 @@ test_valid() {
 }
 
 
-test_valid_multifile() {
-        echo "============================Valid Multifile Programs"
-        for dir in $(find -type d -path "./stage_$1/valid_multifile/*" 2>/dev/null); do
-
-            gcc -w $dir/*
-            run_correct_program
-
-            exec_path="${dir%.*}"                        # source path (directory w/out extension)
-            test_name="${exec_path##*valid_multifile/}"  # name of executable minus path
-
-            # need to explicitly specify output name
-            $compiler -o "$test_name" $dir/* >/dev/null
-            run_our_program $test_name
-
-            print_test_name $test_name
-            compare_program_results
-        done
-}
-
-
 test_invalid() {
         echo "====================================Invalid Programs"
         for src_path in $(find . -type f -name "*.c" -path "./stage_$1/invalid/*" 2>/dev/null); do
@@ -137,14 +112,34 @@ test_invalid() {
 }
 
 
+test_valid_multifile() {
+        echo "============================Valid Multifile Programs"
+        for dir in $(find -type d -path "./stage_$1/valid_multifile/*" 2>/dev/null); do
+
+            gcc -w $dir/*
+            run_correct_program
+
+            exec_path="${dir%.*}"                        # source path (directory w/out extension)
+            test_name="${exec_path##*valid_multifile/}"  # name of executable minus path
+
+            # need to explicitly specify output name
+            $compiler -o "$test_name" $dir/* >/dev/null
+            run_our_program $test_name
+
+            print_test_name $test_name
+            compare_program_results
+        done
+}
+
+
 test_stage () {
     success=0
     fail=0
     printf "\n${1^^}\n"
 
     test_valid $1
-    #test_valid_multifile $1
     test_invalid $1
+    #test_valid_multifile $1
     stage_summary $1
 
     ((success_total=success_total+success))
