@@ -182,18 +182,9 @@ usage() {
 }
 
 
-if [[ "$compiler" == "" ]]; then
+if [[ -z $compiler ]]; then
         usage
         exit 1
-fi
-
-
-if [[ $test_cases != "" ]]; then
-        for test_case in $test_cases; do
-                test_stage $test_case
-        done
-        total_summary
-        exit 0
 fi
 
 
@@ -214,7 +205,14 @@ all_test_cases="literals \
                 array"
 
 
-for test_case in $all_test_cases; do
+if [[ -z $test_cases ]]; then
+        test_cases=$all_test_cases
+fi
+
+
+for test_case in $test_cases; do
         test_stage $test_case
 done
+
+
 total_summary
