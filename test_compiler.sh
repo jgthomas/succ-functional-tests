@@ -8,10 +8,16 @@ NORMAL=$(tput sgr0)
 padding_dots=$(printf '%0.1s' "."{1..60})
 padlength=50
 
+# arguments
 compiler=$1
 shift
+first_command=$1
 test_cases=$@
 
+# commands
+list_tests="tests"
+
+# paths
 test_group_label="stage"
 should_pass="valid"
 should_fail="invalid"
@@ -210,6 +216,16 @@ all_test_cases="literals \
                 types \
                 bitwise \
                 array"
+
+
+if [[ $first_command == $list_tests ]]; then
+        printf "TEST GROUPS\n"
+        printf "===========\n"
+        for test_case in $all_test_cases; do
+                echo $test_case
+        done
+        exit 0
+fi
 
 
 if [[ -z $test_cases ]]; then
