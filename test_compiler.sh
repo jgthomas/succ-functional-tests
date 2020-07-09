@@ -11,12 +11,20 @@ padlength=50
 # arguments
 compiler=$1
 shift
-first_command=$1
 test_cases=$@
 
-# commands
+
+# capture initial command
+if [[ -z $1 ]]; then
+        first_command=$compiler
+else
+        first_command=$1
+fi
+
+# available commands
 list_tests="tests"
 help="help"
+
 
 # paths
 test_group_label="stage"
