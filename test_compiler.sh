@@ -155,6 +155,7 @@ test_stage () {
 
 stage_summary() {
         print_thick_line
+
         printf '%-12s' "${1^^}"
 
         if (($fail == 0)); then
@@ -162,6 +163,7 @@ stage_summary() {
         else
                 printf "%18d successes, ${RED}%d failures${NORMAL}\n" $success $fail
         fi
+
         print_thick_line
 }
 
