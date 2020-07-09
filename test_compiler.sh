@@ -15,6 +15,7 @@ test_cases=$@
 test_group_label="stage"
 should_pass="valid"
 should_fail="invalid"
+should_pass_multi_file="valid_multifile"
 
 success_total=0
 failure_total=0
@@ -120,7 +121,7 @@ test_invalid() {
 
 test_valid_multifile() {
         echo "============================Valid Multifile Programs"
-        for dir in $(find -type d -path "./${test_group_label}_$1/valid_multifile/*" 2>/dev/null); do
+        for dir in $(find -type d -path "./${test_group_label}_$1/${should_pass_multi_file}/*" 2>/dev/null); do
 
             gcc -w $dir/*
             run_correct_program
