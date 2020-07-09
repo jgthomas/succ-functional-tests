@@ -86,7 +86,8 @@ compare_program_results () {
 
 test_valid() {
         echo "======================================Valid Programs"
-        for src_path in $(find . -type f -name "*.c" -path "./${test_group_label}_$1/${should_pass}/*" 2>/dev/null); do
+        valid_path="./${test_group_label}_${1}/${should_pass}/*"
+        for src_path in $(find . -type f -name "*.c" -path "$valid_path" 2>/dev/null); do
 
             gcc -w $src_path
             run_correct_program
@@ -105,7 +106,8 @@ test_valid() {
 
 test_invalid() {
         echo "====================================Invalid Programs"
-        for src_path in $(find . -type f -name "*.c" -path "./${test_group_label}_$1/${should_fail}/*" 2>/dev/null); do
+        invalid_path="./${test_group_label}_${1}/${should_fail}/*"
+        for src_path in $(find . -type f -name "*.c" -path "$invalid_path" 2>/dev/null); do
 
             exec_path="${src_path%.*}"           # source path minus *.c
             test_name="${exec_path##*invalid/}"  # name of executable minus path
@@ -127,7 +129,8 @@ test_invalid() {
 
 test_valid_multifile() {
         echo "============================Valid Multifile Programs"
-        for dir in $(find -type d -path "./${test_group_label}_$1/${should_pass_multi_file}/*" 2>/dev/null); do
+        valid_multi_path="./${test_group_label}_${1}/${should_pass_multi_file}/*"
+        for dir in $(find -type d -path "$valid_multi_path" 2>/dev/null); do
 
             gcc -w $dir/*
             run_correct_program
