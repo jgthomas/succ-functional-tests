@@ -16,6 +16,7 @@ test_cases=$@
 
 # commands
 list_tests="tests"
+help="help"
 
 # paths
 test_group_label="stage"
@@ -193,8 +194,17 @@ total_summary () {
 
 usage() {
     echo "USAGE: ./test_compiler.sh /path/to/compiler [stages]"
-    echo "RUN NAMED TESTS: ./test_compiler.sh /path/to/compiler tests1 tests2 tests3"
-    echo "RUN ALL STAGES: ./test_compiler.sh  /path/to/compiler"
+    echo "Run named tests: ./test_compiler.sh /path/to/compiler tests1 tests2 tests3"
+    echo "Run all tests: ./test_compiler.sh  /path/to/compiler"
+}
+
+
+list_all_tests() {
+        printf "TEST GROUPS\n"
+        printf "===========\n"
+        for test_case in $all_test_cases; do
+                echo $test_case
+        done
 }
 
 
@@ -222,11 +232,10 @@ all_test_cases="literals \
 
 
 if [[ $first_command == $list_tests ]]; then
-        printf "TEST GROUPS\n"
-        printf "===========\n"
-        for test_case in $all_test_cases; do
-                echo $test_case
-        done
+        list_all_tests
+        exit 0
+elif [[ $first_command == $help ]]; then
+        usage
         exit 0
 fi
 
