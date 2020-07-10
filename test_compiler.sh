@@ -6,7 +6,7 @@ GREEN=$(tput setaf 2)
 NORMAL=$(tput sgr0)
 
 padding_dots=$(printf '%0.1s' "."{1..60})
-padlength=50
+padlength=48
 
 # arguments
 compiler=$1
@@ -32,7 +32,10 @@ should_pass="valid"
 should_fail="invalid"
 should_pass_multi_file="valid_multifile"
 
-success_total=0
+pass_label="PASS"
+fail_label="FAIL"
+
+pass_total=0
 failure_total=0
 
 
@@ -58,9 +61,9 @@ print_star_line() {
 }
 
 
-test_success () {
-    printf '%s\n' "${GREEN}OK${NORMAL}"
-    ((success++))
+test_pass () {
+    printf '%s\n' "${GREEN}PASS${NORMAL}"
+    ((pass++))
 }
 
 
@@ -89,7 +92,7 @@ compare_program_results () {
           "$expected_out" != "$actual_out" ]]; then
         test_failure
     else
-        test_success
+        test_pass
     fi
 }
 
@@ -131,7 +134,7 @@ test_invalid() {
                 rm $exec_path 2>/dev/null
                 rm $exec_path".s" 2>/dev/null
             else
-                test_success
+                test_pass
             fi
         done
 }
@@ -159,7 +162,7 @@ test_valid_multifile() {
 
 
 test_stage () {
-    success=0
+    pass=0
     fail=0
     printf "\n${1^^}\n"
 
@@ -168,7 +171,7 @@ test_stage () {
     #test_valid_multifile $1
     stage_summary $1
 
-    ((success_total=success_total+success))
+    ((pass_total=pass_total+pass))
     ((failure_total=failure_total+fail))
 }
 
@@ -178,9 +181,9 @@ print_results() {
         local fail=$2
 
         if (($fail == 0)); then
-                printf "${GREEN}%18d successes${NORMAL}, %d failures\n" $pass $fail
+                printf "${GREEN}%27d ${pass_label}${NORMAL}, %d ${fail_label}\n" $pass $fail
         else
-                printf "%18d successes, ${RED}%d failures${NORMAL}\n" $pass $fail
+                printf "%27d ${pass_label}, ${RED}%d ${fail_label}${NORMAL}\n" $pass $fail
         fi
 }
 
@@ -188,14 +191,14 @@ print_results() {
 stage_summary() {
         print_thick_line
         printf '%-12s' "${1^^}"
-        print_results $success $fail
+        print_results $pass $fail
         print_thick_line
 }
 
 
 total_summary () {
     printf '\n%-12s' "OVERALL"
-    print_results $success_total $failure_total
+    print_results $pass_total $failure_total
     print_thick_line
 }
 
