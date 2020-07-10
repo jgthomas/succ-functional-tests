@@ -173,30 +173,29 @@ test_stage () {
 }
 
 
-stage_summary() {
-        print_thick_line
-
-        printf '%-12s' "${1^^}"
+print_results() {
+        local pass=$1
+        local fail=$2
 
         if (($fail == 0)); then
-                printf "${GREEN}%18d successes${NORMAL}, %d failures\n" $success $fail
+                printf "${GREEN}%18d successes${NORMAL}, %d failures\n" $pass $fail
         else
-                printf "%18d successes, ${RED}%d failures${NORMAL}\n" $success $fail
+                printf "%18d successes, ${RED}%d failures${NORMAL}\n" $pass $fail
         fi
+}
 
+
+stage_summary() {
+        print_thick_line
+        printf '%-12s' "${1^^}"
+        print_results $success $fail
         print_thick_line
 }
 
 
 total_summary () {
     printf '\n%-12s' "OVERALL"
-
-    if (($failure_total == 0)); then
-            printf "${GREEN}%18d successes${NORMAL}, %d failures\n" $success_total $failure_total
-    else
-            printf "%18d successes, ${RED}%d failures${NORMAL}\n" $success_total $failure_total
-    fi
-
+    print_results $success_total $failure_total
     print_thick_line
 }
 
