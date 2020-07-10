@@ -4,9 +4,11 @@ This is an adapted and expanded version of the test suite provided by [Nora Sand
 
 ### changes
 
-* Tests now grouped by theme
+* Tests now grouped by language feature
 
 * Test script now outputs green or red for passing and failing tests, respectively
+
+* General refactoring of test script
 
 * Added tests for further unary and binary operators
 
