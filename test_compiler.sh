@@ -201,9 +201,11 @@ total_summary () {
 
 
 usage() {
-    echo "USAGE: ./test_compiler.sh /path/to/compiler [stages]"
-    echo "Run named tests: ./test_compiler.sh /path/to/compiler tests1 tests2 tests3"
-    echo "Run all tests: ./test_compiler.sh  /path/to/compiler"
+        printf "\nUsage: ./test_compiler.sh [compiler] [options] [tests]\n\n"
+        printf '%-15s%-20s%-25s \n' "compiler" "" "Run all tests"
+        printf '%-15s%-20s%-25s \n' "compiler" "test1 test2" "Run all named tests"
+        printf '%-15s%-20s%-25s \n' "[compiler]" "help" "Show this message"
+        printf '%-15s%-20s%-25s \n' "[compiler]" "tests" "List all test sections"
 }
 
 
@@ -216,10 +218,17 @@ list_all_tests() {
 }
 
 
-if [[ -z $compiler ]]; then
-        usage
-        exit 1
-fi
+run_test_cases() {
+        if [[ -z $test_cases ]]; then
+                test_cases=$all_test_cases
+        fi
+
+        for test_case in $test_cases; do
+                test_stage $test_case
+        done
+
+        total_summary
+}
 
 
 all_test_cases="literals \
@@ -239,23 +248,22 @@ all_test_cases="literals \
                 array"
 
 
-if [[ $first_command == $list_tests ]]; then
-        list_all_tests
-        exit 0
-elif [[ $first_command == $help ]]; then
+if [[ -z $compiler ]]; then
         usage
-        exit 0
+        exit 1
 fi
 
 
-if [[ -z $test_cases ]]; then
-        test_cases=$all_test_cases
-fi
-
-
-for test_case in $test_cases; do
-        test_stage $test_case
-done
-
-
-total_summary
+case $first_command in
+        $list_tests)
+                list_all_tests
+                exit 0
+                ;;
+        $help)
+                usage
+                exit 0
+                ;;
+        *)
+                run_test_cases
+                ;;
+esac
