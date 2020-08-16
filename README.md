@@ -2,7 +2,7 @@
 
 This is an adapted and expanded version of the test suite provided by [Nora Sandler](https://github.com/nlsandler/write_a_c_compiler).
 
-### changes
+### Script Changes
 
 * Tests now grouped by language feature
 
@@ -10,12 +10,14 @@ This is an adapted and expanded version of the test suite provided by [Nora Sand
 
 * General refactoring of test script
 
-* Added tests for further unary and binary operators
+### New Tests Added
 
-* Added tests for bitwise operators
+* Further unary and binary operators
 
-* Added tests for pointers
+* Bitwise operators
 
-* Added tests for basic type checking
+* Pointers
 
-* Added tests for arrays
+* Basic type checking
+
+* Arrays
